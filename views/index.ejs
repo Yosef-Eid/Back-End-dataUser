@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="/styles/style.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>node.js</title>
     <!-- <script src="https://cdn.tailwindcss.com"></script> -->
 
 </head>
@@ -12,11 +12,21 @@
     
 
     <form action="/" method="post">
-        <input id="x" name="name" type="text" placeholder="Enter Name" required>
+        <input name="name" type="text" placeholder="Enter Name" required>
         <input name="number" type="number" required>
-        <button>send data</button>
+        <div class="but">
+            <button>send data</button>
+        </div>
+
+    
     </form>
 
+
+    <div style="color: white;">
+
+        <!-- show data from database -->
+        <%=dataUser[0].name%>
+    </div>
 
 </body>
 </html>

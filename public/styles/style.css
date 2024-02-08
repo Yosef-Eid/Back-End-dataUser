@@ -1,3 +1,66 @@
-input{
-    background-color: red;
+body{
+    height: 100vh;
+    background-color: #0b0b18;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 100px;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+form{
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+
+    input{
+        width: 370px;
+        height: 40px;
+        background: rgba(4, 34, 45, 0.208);
+        color: rgb(197, 197, 197);
+        font-size: 17px;
+        border-radius: 5px;
+        border: 1px solid rgba(255, 255, 255, 0.295);
+        outline: none;
+        padding: 10px;
+
+    }
+
+    .but{
+        width: 100%;
+        display: inline-block;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        button{
+            width: 50%;
+            height: 35px;
+            border-radius: 5px;
+            font-size: 18px;
+            outline: none;
+            border: 1px solid rgba(255, 255, 255, 0.263);
+            background-color: #161630;
+            color: rgba(255, 255, 255, 0.84);
+            box-shadow: 0 0 10px 0 rgba(255, 255, 255, 0.162);
+            cursor: pointer;
+            transition: all .2s;
+        }
+
+        button:hover{
+            background-color: #1b1b42;
+        }
+        button:active{
+            background-color: #3f3f59;
+        }
+    }
 }
