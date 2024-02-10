@@ -12,39 +12,44 @@ app.set('view engine', 'ejs'); // run ejs
 
 
 // livereload
-{const path = require("path");
-const livereload = require("livereload");
-const liveReloadServer = livereload.createServer();
-liveReloadServer.watch(path.join(__dirname, 'public'));
+{
+    const path = require("path");
+    const livereload = require("livereload");
+    const liveReloadServer = livereload.createServer();
+    liveReloadServer.watch(path.join(__dirname, 'public'));
 
-const connectLivereload = require("connect-livereload");
-app.use(connectLivereload());
+    const connectLivereload = require("connect-livereload");
+    app.use(connectLivereload());
 
-liveReloadServer.server.once("connection", () => {
-    setTimeout(() => {
-        liveReloadServer.refresh("/");
-    }, 500);
-})}
+    liveReloadServer.server.once("connection", () => {
+        setTimeout(() => {
+            liveReloadServer.refresh("/");
+        }, 100);
+    })
+}
 
 
 app.get("/", (req, res) => {
-    // result ==> array of objects
-    res.render("index", {   });
-    
-    });
-    
-    app.get("/user/add.html", (req, res) => {
-      res.render("user/add")
-    });
-    
-    app.get("/user/view.html", (req, res) => {
-      res.render("user/view")
-    });
-    
-    app.get("/user/edit.html", (req, res) => {
-      res.render("user/edit")
-    });
-    
+    userData.find()
+    .then((data) => {
+
+        res.render("index", {data: data});
+    }).catch((err) => console.log(err))
+
+});
+
+app.get("/user/add.html", (req, res) => {
+    res.render("user/add")
+});
+
+app.get("/user/view.html", (req, res) => {
+    res.render("user/view")
+});
+
+app.get("/user/edit.html", (req, res) => {
+    res.render("user/edit")
+});
+
 
 // Link to the database coming from mongoDb
 mongoose.connect('mongodb+srv://yousef:NYa7FaifG5sDdQMI@cluster0.gogt4k0.mongodb.net/all-data?retryWrites=true&w=majority')
@@ -55,14 +60,15 @@ mongoose.connect('mongodb+srv://yousef:NYa7FaifG5sDdQMI@cluster0.gogt4k0.mongodb
 
 // Save data in the database
 app.post('/user/add.html', (req, res) => {
-    console.log(req.body);
-    userData(req.body).save()
+    new userData(req.body).save()
         .then(() => {
             res.redirect('/user/add.html') //Go to the main path after saving the data
-        }).catch(err => "Error send database:" + err)
+        }).catch(err => console.log("Error send database:" + err))
 })
 
 // run the project on port 3000
 app.listen(port, () => {
     console.log('welcome');
 })
+
+
