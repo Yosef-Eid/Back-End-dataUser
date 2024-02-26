@@ -10,31 +10,30 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public')) // link css file with html file
 app.set('view engine', 'ejs'); // run ejs
 
+const methodOverride = require('method-override')
+app.use(methodOverride('_method'))
 
-// livereload
-{
-    const path = require("path");
-    const livereload = require("livereload");
-    const liveReloadServer = livereload.createServer();
-    liveReloadServer.watch(path.join(__dirname, 'public'));
 
-    const connectLivereload = require("connect-livereload");
-    app.use(connectLivereload());
+// format time and date
+var moment = require('moment');
 
-    liveReloadServer.server.once("connection", () => {
-        setTimeout(() => {
-            liveReloadServer.refresh("/");
-        }, 100);
+
+// Link to the database coming from mongoDb
+mongoose.connect('mongodb+srv://yousef:NYa7FaifG5sDdQMI@cluster0.gogt4k0.mongodb.net/all-data?retryWrites=true&w=majority')
+    .then(() => {
+        // run the project on port 3000
+        app.listen(port, () => {
+            console.log(`http://localhost:${port}`);
+        })
     })
-}
+    .catch(err => "Error conation with database" + err)
 
-
+// get data from server
 app.get("/", (req, res) => {
     userData.find()
-    .then((data) => {
-
-        res.render("index", {data: data});
-    }).catch((err) => console.log(err))
+        .then((data) => {
+            res.render("index", { data: data, moment: moment });
+        }).catch((err) => console.log(err))
 
 });
 
@@ -42,21 +41,21 @@ app.get("/user/add.html", (req, res) => {
     res.render("user/add")
 });
 
-app.get("/user/view.html", (req, res) => {
-    res.render("user/view")
+app.get("/edit/:id", (req, res) => {
+    userData.findById(req.params.id)
+        .then((user) => {
+            res.render("user/edit", { user: user })
+        }).catch((err) => { console.log(err); })
+
 });
 
-app.get("/user/edit.html", (req, res) => {
-    res.render("user/edit")
-});
-
-
-// Link to the database coming from mongoDb
-mongoose.connect('mongodb+srv://yousef:NYa7FaifG5sDdQMI@cluster0.gogt4k0.mongodb.net/all-data?retryWrites=true&w=majority')
-    .then(() => {
-        // Run the project on port 3000
-    })
-    .catch(err => "Error conation with database" + err)
+// show details data users
+app.get('/user/:id', (req, res) => {
+    userData.findById(req.params.id)
+        .then((result) => {
+            res.render("user/view", { detailsUser: result, moment: moment });
+        }).catch((err) => { console.log(err); })
+})
 
 // Save data in the database
 app.post('/user/add.html', (req, res) => {
@@ -66,9 +65,30 @@ app.post('/user/add.html', (req, res) => {
         }).catch(err => console.log("Error send database:" + err))
 })
 
-// run the project on port 3000
-app.listen(port, () => {
-    console.log('welcome');
+// app.get('user/edit/:id', (req, res) => {
+//     userData.findById(req.params.id)
+//         .then((edit) => {
+//             console.log(edit);
+//             res.render('/user/edit')
+
+//         }).catch(err => console.log(err))
+
+// })
+
+
+// npm install method-override ??????
+// delete database
+app.delete('/:id', (req, res) => {
+    userData.findByIdAndDelete(req.params.id)
+        .then(() => res.redirect('/'))
+        .catch((err) => console.log(err))
 })
+
+app.delete('/edit/:id', (req, res) => {
+    userData.findByIdAndDelete(req.params.id)
+        .then(() => res.redirect('/'))
+        .catch((err) => console.log(err))
+})
+
 
 

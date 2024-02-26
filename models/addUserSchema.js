@@ -9,7 +9,9 @@ const userSchema = new mongoose.Schema({
     age: Number,
     country: String,
     gender: String,
-});
+},
+{timestamps: true}
+);
 
 const userData = mongoose.model('UserData', userSchema)
 

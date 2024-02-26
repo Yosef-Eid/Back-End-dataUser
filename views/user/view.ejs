@@ -16,7 +16,7 @@
       content="Mark Otto, Jacob Thornton, and Bootstrap contributors"
     />
     <meta name="generator" content="Hugo 0.112.5" />
-    <title>Edit page</title>
+    <title><%=detailsUser.firstName%> <%= detailsUser.lastName%> </title>
 
     <link href="../css/bootstrap.min.css" rel="stylesheet" />
 
@@ -258,7 +258,7 @@
             aria-expanded="false"
           >
             <img
-              src="./img/me.JPG"
+              src="./img/jologo.svg"
               alt=""
               width="32"
               height="32"
@@ -289,12 +289,12 @@
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/">Home</a></li>
             <li class="breadcrumb-item active" aria-current="page">
-              Ali Hassan
+              <%= detailsUser.firstName %> <%= detailsUser.lastName %>
             </li>
           </ol>
 
           <p class=" ">
-            <span class="fw-medium fs-6">Id :</span> 6487021520bcf1af6319484c
+            <span class="fw-medium fs-6">Id :</span> <%= detailsUser._id %>
           </p>
         </nav>
 
@@ -303,50 +303,52 @@
           class="ms-1 table mt-5 table-striped table-bordered"
         >
           <thead>
+
             <tr>
               <th scope="col">First Name</th>
-              <th class="fw-normal" scope="col">Ali</th>
+              <th class="fw-normal" scope="col"><%= detailsUser.firstName %></th>
             </tr>
+
           </thead>
           <tbody>
             <tr>
               <th scope="row">Last Name</th>
-              <td>Hassan</td>
+              <td><%= detailsUser.lastName %></td>
             </tr>
 
             <tr>
-              <th scope="row">Telephone</th>
-              <td>Test1</td>
+              <th scope="row">Phone</th>
+              <td><%= detailsUser.phone %></td>
             </tr>
 
             <tr>
               <th scope="row">Email</th>
-              <td>ali7assan@gmail.com</td>
+              <td><%= detailsUser.email %></td>
             </tr>
 
             <tr>
               <th scope="row">Gender</th>
-              <td>Test3</td>
+              <td><%= detailsUser.gender %></td>
             </tr>
 
             <tr>
               <th scope="row">Age</th>
-              <td>Test4</td>
+              <td><%= detailsUser.age %></td>
             </tr>
 
             <tr>
               <th scope="row">Country</th>
-              <td>Test5</td>
+              <td><%= detailsUser.country %></td>
             </tr>
 
             <tr>
               <th scope="row">Created on</th>
-              <td>Test6</td>
+              <td><%= moment(detailsUser.createdAt).fromNow()%></td>
             </tr>
 
             <tr>
               <th scope="row">Last Update</th>
-              <td>Test7</td>
+              <td><%= moment(detailsUser.updatedAt).fromNow()%></td>
             </tr>
           </tbody>
         </table>
