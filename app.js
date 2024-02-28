@@ -16,6 +16,7 @@ app.use(methodOverride('_method'))
 
 // format time and date
 var moment = require('moment');
+const { render } = require('ejs')
 
 
 // Link to the database coming from mongoDb
@@ -46,7 +47,6 @@ app.get("/edit/:id", (req, res) => {
         .then((user) => {
             res.render("user/edit", { user: user })
         }).catch((err) => { console.log(err); })
-
 });
 
 // show details data users
@@ -59,22 +59,20 @@ app.get('/user/:id', (req, res) => {
 
 // Save data in the database
 app.post('/user/add.html', (req, res) => {
-    new userData(req.body).save()
+    userData.create(req.body)
         .then(() => {
             res.redirect('/user/add.html') //Go to the main path after saving the data
         }).catch(err => console.log("Error send database:" + err))
 })
 
-// app.get('user/edit/:id', (req, res) => {
-//     userData.findById(req.params.id)
-//         .then((edit) => {
-//             console.log(edit);
-//             res.render('/user/edit')
-
-//         }).catch(err => console.log(err))
-
-// })
-
+// update the data 
+app.put('/edit/:id', (req, res) => {
+    // userData.findByIdAndUpdate(req.params.id, req.body)
+    userData.updateOne({_id: req.params.id}, req.body)
+        .then(() => {
+            res.redirect('/')
+        }).catch(err => console.log(err))
+})
 
 // npm install method-override ??????
 // delete database
